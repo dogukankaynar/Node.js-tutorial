@@ -1,6 +1,10 @@
 const express = require('express');
-const app = express();
+const ejs = require('ejs');
 const path = require('path');
+const app = express();
+
+//template engine
+app.set('view engine', 'ejs');
 
 const myLogger = (req, res, next) => {
   console.log('middleware log 1');
@@ -8,31 +12,15 @@ const myLogger = (req, res, next) => {
 };
 //MıddleWare
 app.use(express.static('public'));
-app.use(myLogger);
-
-const indexPath = path.join(__dirname, '/temp/index.html');
-const aboutPath = path.join(__dirname, '/temp/about.html');
-const contactPath = path.join(__dirname, '/temp/contact.html');
-const videtPath = path.join(__dirname, '/temp/video-page.html');
 
 app.get('/', (req, res) => {
-  res.status(200).sendFile(indexPath);
+  res.render('index');
 });
-
-app.get('/about.html', (req, res) => {
-  res.status(200).sendFile(aboutPath);
+app.get('/about', (req, res) => {
+  res.render('about');
 });
-
-app.get('/contact.html', (req, res) => {
-  res.status(200).sendFile(contactPath);
-});
-
-app.get('/video-page.html', (req, res) => {
-  res.status(200).sendFile(videtPath);
-});
-
-app.get('*', (req, res) => {
-  res.status(404).send('<h1>404 Sayfa Bulunamadi</h1>');
+app.get('/add', (req, res) => {
+  res.render('add');
 });
 
 const port = 3000;
