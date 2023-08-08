@@ -25,7 +25,7 @@ app.use(express.json());
 //routes
 app.get('/', async (req, res) => {
   const photos = await Photo.find({});
-  console.log(photos)
+  console.log(photos);
   res.render('index', {
     photos,
   });
@@ -36,6 +36,12 @@ app.get('/about', (req, res) => {
 });
 app.get('/add', (req, res) => {
   res.render('add');
+});
+
+//id ile seçili olan id ye göre datayı alıp gönderdik
+app.get('/photos/:id', async (req, res) => {
+  const photo = await Photo.findById(req.params.id);
+  res.render('photo', { photo });
 });
 
 app.post('/photos', async (req, res) => {
